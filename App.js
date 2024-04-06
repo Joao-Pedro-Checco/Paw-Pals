@@ -13,9 +13,9 @@ const InsideStack = createNativeStackNavigator();
 
 function InsideLayout() {
     return (
-      <InsideStack.Navigator>
-          <InsideStack.Screen name="Feed" component={FeedScreen} options={{headerShown: false}} />
-      </InsideStack.Navigator>
+        <InsideStack.Navigator>
+            <InsideStack.Screen name="Feed" component={FeedScreen} options={{headerShown: false}}/>
+        </InsideStack.Navigator>
     );
 }
 
@@ -30,15 +30,18 @@ export default function App() {
     }, []);
     return (
         <NavigationContainer>
-            <Stack.Navigator initialRouteName="Splash">
+            <Stack.Navigator initialRouteName="Splash" options={{headerShown: false}}>
                 {user ? (
-                    <Stack.Screen name="Splash" component={InsideLayout} options={{headerShown: false}}/>
+                    <>
+                        <Stack.Screen name="Feed" component={FeedScreen} options={{headerShown: false}}/>
+                    </>
                 ) : (
-                    <Stack.Screen name="Splash" component={SplashScreen} options={{headerShown: false}}/>
+                    <>
+                        <Stack.Screen name="Splash" component={SplashScreen} options={{headerShown: false}}/>
+                        <Stack.Screen name="Login" component={LoginScreen} options={{headerShown: false}}/>
+                        <Stack.Screen name="Register" component={RegisterScreen} options={{headerShown: false}}/>
+                    </>
                 )}
-
-                <Stack.Screen name="Login" component={LoginScreen} options={{headerShown: false}}/>
-                <Stack.Screen name="Register" component={RegisterScreen} options={{headerShown: false}}/>
             </Stack.Navigator>
         </NavigationContainer>
     );
