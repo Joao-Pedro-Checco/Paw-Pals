@@ -1,4 +1,5 @@
 import React from "react";
+import { ImageBackground } from 'react-native-web';
 import {
     SafeAreaView,
     Text,
@@ -41,72 +42,77 @@ const RegisterScreen = ({navigation}) => {
     };
 
     return (
-        <SafeAreaView style={styles.container}>
-            <Text style={styles.title}>Paw Pals</Text>
+        <ImageBackground
+        style = {styles.ImageBackground}
+        resizeMode = 'cover' 
+        source = {require("../assets/bg.png") }>
+            <SafeAreaView style={styles.container}>
+                <Text style={styles.title}>Paw Pals</Text>
 
-            <View style={[styles.form, styles.card]}>
-                <Text style={styles.header}>Cadastro</Text>
+                <View style={[styles.form, styles.card]}>
+                    <Text style={styles.header}>Cadastro</Text>
 
-                <TextInput
-                    value={name}
-                    style={styles.input}
-                    placeholder="Nome"
-                    autocapitalize="none"
-                    onChangeText={setName}
-                ></TextInput>
+                    <TextInput
+                        value={name}
+                        style={styles.input}
+                        placeholder="Nome"
+                        autocapitalize="none"
+                        onChangeText={setName}
+                    ></TextInput>
 
-                <TextInput
-                    value={email}
-                    style={styles.input}
-                    placeholder="E-mail"
-                    autocapitalize="none"
-                    onChangeText={setEmail}
-                ></TextInput>
+                    <TextInput
+                        value={email}
+                        style={styles.input}
+                        placeholder="E-mail"
+                        autocapitalize="none"
+                        onChangeText={setEmail}
+                    ></TextInput>
 
-                <TextInput
-                    value={password}
-                    style={styles.input}
-                    secureTextEntry
-                    placeholder="Senha"
-                    autocapitalize="none"
-                    onChangeText={setPassword}
-                ></TextInput>
+                    <TextInput
+                        value={password}
+                        style={styles.input}
+                        secureTextEntry
+                        placeholder="Senha"
+                        autocapitalize="none"
+                        onChangeText={setPassword}
+                    ></TextInput>
 
-                <TextInput
-                    value={confirmPassword}
-                    style={styles.input}
-                    secureTextEntry
-                    placeholder="Confirmar senha"
-                    autocapitalize="none"
-                    onChangeText={setConfirmPassword}
-                ></TextInput>
+                    <TextInput
+                        value={confirmPassword}
+                        style={styles.input}
+                        secureTextEntry
+                        placeholder="Confirmar senha"
+                        autocapitalize="none"
+                        onChangeText={setConfirmPassword}
+                    ></TextInput>
 
-                {loading ? (
-                    <ActivityIndicator size="large" color="#0000FF" style={styles.loading}/>
-                ) : (
-                    <CustomButton
-                        text="Cadastrar-se"
-                        buttonStyle={styles.button}
-                        buttonTextStyle={styles.buttonText}
-                        onPress={register}
-                    ></CustomButton>
-                )}
+                    {loading ? (
+                        <ActivityIndicator size="large" color="#0000FF" style={styles.loading}/>
+                    ) : (
+                        <CustomButton
+                            text="Cadastrar-se"
+                            buttonStyle={styles.button}
+                            buttonTextStyle={styles.buttonText}
+                            onPress={register}
+                        ></CustomButton>
+                    )}
 
-                <TouchableOpacity onPress={() => navigation.navigate("Login")}>
-                    <Text style={{alignSelf: "center", marginTop: 32}}>
-                        Já possui cadastro?{" "}
-                        <Text style={{color: "#1B022E"}}>Faça login</Text>
-                    </Text>
-                </TouchableOpacity>
-            </View>
-        </SafeAreaView>
+                    <TouchableOpacity onPress={() => navigation.navigate("Login")}>
+                        <Text style={{alignSelf: "center", marginTop: 32}}>
+                            Já possui cadastro?{" "}
+                            <Text style={{color: "#1B022E"}}>Faça login</Text>
+                        </Text>
+                    </TouchableOpacity>
+                </View>
+            </SafeAreaView>
+        </ImageBackground>
     );
 };
 
 const styles = StyleSheet.create({
     container: {
         flex: 1,
-        backgroundColor: "#77BBC4",
+        // backgroundColor: "#77BBC4",
     },
     card: {
         width: "92%",
@@ -162,6 +168,10 @@ const styles = StyleSheet.create({
         color: "#FDFDFB",
         fontWeight: "bold",
     },
+    ImageBackground:{
+        flex: 1,
+        justifyContent: 'center',
+    }
 });
 
 export default RegisterScreen;
