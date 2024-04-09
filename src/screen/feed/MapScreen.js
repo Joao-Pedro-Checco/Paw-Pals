@@ -1,10 +1,9 @@
 import {View, Text, StyleSheet} from 'react-native';
-import React from 'react';
 
-const FeedScreen = ({navigation}) => {
+const MapScreen = ({navigation}) => {
     return (
         <View style={styles.container}>
-            <Text>Feed Screen</Text>
+            <Text>Map Screen</Text>
         </View>
     );
 };
@@ -12,10 +11,10 @@ const FeedScreen = ({navigation}) => {
 const styles = StyleSheet.create({
     container: {
         flex: 1,
-        backgroundColor: "#77BBC4",
+        backgroundColor: "#D9D9D9",
         alignItems: "center",
         justifyContent: "center",
     }
 });
 
-export default FeedScreen;
+export default MapScreen;

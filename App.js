@@ -6,18 +6,9 @@ import RegisterScreen from "./src/screen/RegisterScreen";
 import {useState, useEffect} from "react";
 import {FIREBASE_AUTH} from "./src/firebase/FirebaseConfig";
 import {onAuthStateChanged} from "firebase/auth";
-import FeedScreen from "./src/screen/FeedScreen";
+import FeedStack from "./src/navigation/FeedStack";
 
 const Stack = createNativeStackNavigator();
-const InsideStack = createNativeStackNavigator();
-
-function InsideLayout() {
-    return (
-        <InsideStack.Navigator>
-            <InsideStack.Screen name="Feed" component={FeedScreen} options={{headerShown: false}}/>
-        </InsideStack.Navigator>
-    );
-}
 
 export default function App() {
     const [user, setUser] = useState(null);
@@ -33,7 +24,7 @@ export default function App() {
             <Stack.Navigator initialRouteName="Splash" options={{headerShown: false}}>
                 {user ? (
                     <>
-                        <Stack.Screen name="Feed" component={FeedScreen} options={{headerShown: false}}/>
+                        <Stack.Screen name="Feed" component={FeedStack} options={{headerShown: false}}/>
                     </>
                 ) : (
                     <>

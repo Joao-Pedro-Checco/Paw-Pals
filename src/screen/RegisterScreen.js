@@ -1,5 +1,5 @@
 import React from "react";
-import { ImageBackground } from 'react-native-web';
+import { ImageBackground } from 'react-native';
 import {
     SafeAreaView,
     Text,
