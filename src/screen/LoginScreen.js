@@ -1,5 +1,5 @@
 import React from "react";
-import {Text, TouchableOpacity, ActivityIndicator} from "react-native";
+import {ActivityIndicator, Text, TouchableOpacity} from "react-native";
 import {FIREBASE_AUTH} from "../firebase/FirebaseConfig.js"
 import {signInWithEmailAndPassword} from "firebase/auth"
 import {Background, ButtonText, Card, Container, Header, Input, LoginButton, Title} from "../styles/LoginStyles";

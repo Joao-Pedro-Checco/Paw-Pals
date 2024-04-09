@@ -1,16 +1,8 @@
 import React from "react";
-import { ImageBackground } from 'react-native';
-import {
-    SafeAreaView,
-    Text,
-    StyleSheet,
-    View,
-    TextInput,
-    TouchableOpacity, ActivityIndicator,
-} from "react-native";
-import CustomButton from "../components/CustomButton";
+import {ActivityIndicator, Text, TouchableOpacity} from "react-native";
 import {FIREBASE_AUTH} from "../firebase/FirebaseConfig";
 import {createUserWithEmailAndPassword} from "firebase/auth";
+import {Background, ButtonText, Card, Container, Header, Input, RegisterButton, Title} from "../styles/RegisterStyles";
 
 const RegisterScreen = ({navigation}) => {
     const [name, setName] = React.useState("");
@@ -42,59 +34,58 @@ const RegisterScreen = ({navigation}) => {
     };
 
     return (
-        <ImageBackground
-        style = {styles.ImageBackground}
-        resizeMode = 'cover' 
-        source = {require("../assets/bg.png") }>
-            <SafeAreaView style={styles.container}>
-                <Text style={styles.title}>Paw Pals</Text>
+        <Background
+            resizeMode='cover'
+            source={require("../assets/bg.png")}>
+            <Container>
+                <Title>Paw Pals</Title>
 
-                <View style={[styles.form, styles.card]}>
-                    <Text style={styles.header}>Cadastro</Text>
+                <Card>
+                    <Header>Cadastro</Header>
 
-                    <TextInput
+                    <Input
                         value={name}
-                        style={styles.input}
                         placeholder="Nome"
                         autocapitalize="none"
                         onChangeText={setName}
-                    ></TextInput>
+                    ></Input>
 
-                    <TextInput
+                    <Input
                         value={email}
-                        style={styles.input}
                         placeholder="E-mail"
                         autocapitalize="none"
                         onChangeText={setEmail}
-                    ></TextInput>
+                    ></Input>
 
-                    <TextInput
+                    <Input
                         value={password}
-                        style={styles.input}
                         secureTextEntry
                         placeholder="Senha"
                         autocapitalize="none"
                         onChangeText={setPassword}
-                    ></TextInput>
+                    ></Input>
 
-                    <TextInput
+                    <Input
                         value={confirmPassword}
-                        style={styles.input}
                         secureTextEntry
                         placeholder="Confirmar senha"
                         autocapitalize="none"
                         onChangeText={setConfirmPassword}
-                    ></TextInput>
+                    ></Input>
 
                     {loading ? (
-                        <ActivityIndicator size="large" color="#0000FF" style={styles.loading}/>
+                        <ActivityIndicator
+                            size="large"
+                            color="#0000FF"
+                            style={{
+                                marginTop: 120,
+                                marginHorizontal: 58,
+                            }}
+                        />
                     ) : (
-                        <CustomButton
-                            text="Cadastrar-se"
-                            buttonStyle={styles.button}
-                            buttonTextStyle={styles.buttonText}
-                            onPress={register}
-                        ></CustomButton>
+                        <RegisterButton onPress={register}>
+                            <ButtonText>Cadastrar-se</ButtonText>
+                        </RegisterButton>
                     )}
 
                     <TouchableOpacity onPress={() => navigation.navigate("Login")}>
@@ -103,75 +94,10 @@ const RegisterScreen = ({navigation}) => {
                             <Text style={{color: "#1B022E"}}>Faça login</Text>
                         </Text>
                     </TouchableOpacity>
-                </View>
-            </SafeAreaView>
-        </ImageBackground>
+                </Card>
+            </Container>
+        </Background>
     );
 };
-
-const styles = StyleSheet.create({
-    container: {
-        flex: 1,
-        // backgroundColor: "#77BBC4",
-    },
-    card: {
-        width: "92%",
-        height: "75%",
-        borderRadius: 10,
-        backgroundColor: "#FDFDFB",
-        padding: 10,
-    },
-    title: {
-        marginTop: 70,
-        marginBottom: 50,
-        marginHorizontal: 30,
-        fontSize: 36,
-        fontWeight: "400",
-        color: "#FDFDFB",
-    },
-    header: {
-        fontSize: 30,
-        marginBottom: 20,
-        color: "#1B022E",
-    },
-    form: {
-        marginBottom: 48,
-        marginHorizontal: 15,
-    },
-    input: {
-        marginVertical: 4,
-        marginTop: 20,
-        height: 40,
-        borderWidth: 1,
-        borderRadius: 4,
-        padding: 10,
-        backgroundColor: 'white',
-        color: "#1B022E",
-    },
-    loading: {
-        marginTop: 120,
-        marginHorizontal: 58
-    },
-    button: {
-        width: 250,
-        height: 50,
-        marginTop: 120,
-        marginHorizontal: 58,
-        backgroundColor: "#1B022E",
-        paddingVertical: 10,
-        paddingHorizontal: 20,
-        borderRadius: 5,
-        justifyContent: "center",
-        alignItems: "center",
-    },
-    buttonText: {
-        color: "#FDFDFB",
-        fontWeight: "bold",
-    },
-    ImageBackground:{
-        flex: 1,
-        justifyContent: 'center',
-    }
-});
 
 export default RegisterScreen;
