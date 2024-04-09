@@ -32,7 +32,6 @@ const LoginScreen = ({navigation}) => {
                     <Header>Login</Header>
                     <Input
                         value={email}
-                        style={styles.input}
                         placeholder="Email"
                         autocapitalize="none"
                         onChangeText={setEmail}
@@ -40,7 +39,6 @@ const LoginScreen = ({navigation}) => {
 
                     <Input
                         value={password}
-                        style={styles.input}
                         secureTextEntry
                         placeholder="Senha"
                         autocapitalize="none"
