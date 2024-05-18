@@ -13,13 +13,15 @@ import {
     UserWrapper
 } from "../../styles/feed/PostCardStyles";
 import Icon from 'react-native-vector-icons/Ionicons';
+import {useState} from "react";
 
 const PostCard = ({item}) => {
-    const likeIcon = item.liked ? "heart" : "heart-outline";
-    const likeText = item.liked ? "Curtiu" : "Curtir";
+    const [like, setLike] = useState(false);
+    let likeIcon = like ? "heart" : "heart-outline";
+    let likeText = like ? "Curtiu" : "Curtir";
 
     const likePost = () => {
-        item.liked = !item.liked;
+        setLike(!item.liked);
     }
 
     return (

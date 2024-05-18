@@ -21,3 +21,25 @@ export const InputField = styled.TextInput`
     text-align: center;
     width: 90%;
 `
+
+export const PostImage = styled.Image`
+    width: 90%;
+    height: 70%;
+    border-radius: 5px;
+`
+
+export const PostButton = styled.TouchableOpacity`
+    width: 150px;
+    height: 50px;
+    margin-bottom: 32px;
+    margin-left: 20px;
+    background-color: #485982;
+    border-radius: 5px;
+    justify-content: center;
+    align-items: center;
+    align-self: flex-start;
+`
+
+export const ButtonText = styled.Text`
+    color: #FDFDFB;
+`

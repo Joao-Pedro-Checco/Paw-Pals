@@ -15,7 +15,7 @@ const HomeScreen = ({navigation}) => {
         },
         {
             id: 2,
-            userName: "Gustavo",
+            userName: "Gustavo de Castro",
             profilePic: require("../../assets/logo.png"),
             postTime: "4 horas atrás",
             description: "Esse é o texto da postagem",
@@ -24,7 +24,7 @@ const HomeScreen = ({navigation}) => {
         },
         {
             id: 3,
-            userName: "Renan Almossar",
+            userName: "Renan Almassan",
             profilePic: require("../../assets/logo.png"),
             postTime: "4 horas atrás",
             description: "Esse é o texto da postagem",
@@ -42,7 +42,7 @@ const HomeScreen = ({navigation}) => {
         },
         {
             id: 5,
-            userName: "Gabriel Geme Fino",
+            userName: "Gabriel Rosa",
             profilePic: require("../../assets/logo.png"),
             postTime: "4 hora atrás",
             description: "Esse é o texto da postagem",

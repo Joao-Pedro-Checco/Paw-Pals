@@ -1,28 +1,38 @@
-import {Container, InputField, InputWrapper} from "../../styles/feed/NewPostStyles";
+import {ButtonText, Container, InputField, InputWrapper, PostButton, PostImage} from "../../styles/feed/NewPostStyles";
 import ActionButton from 'react-native-action-button';
 import Icon from 'react-native-vector-icons/Ionicons';
-import {StyleSheet, PermissionsAndroid} from "react-native";
-import {launchImageLibrary, launchCamera} from "react-native-image-picker";
-import {useState} from "react";
+import {StyleSheet} from "react-native";
+import * as ImagePicker from 'expo-image-picker';
+import React, {useState} from "react";
 
 const NewPostScreen = ({navigation}) => {
-    let options = {
-        saveToPhotos: true,
-        mediaType: "photo"
-    };
-    const [cameraPhoto, setCameraPhoto] = useState(null);
+    const [selectedImage, setSelectedImage] = useState(null);
 
     const openCamera = async () => {
-        const granted = await PermissionsAndroid.request(PermissionsAndroid.PERMISSIONS.CAMERA);
-        if (granted === PermissionsAndroid.PERMISSIONS.GRANTED) {
-            const result = await launchCamera(options);
-            setCameraPhoto(result.assets[0].uri);
+        let result = await ImagePicker.launchCameraAsync({
+            allowsEditing: true,
+            quality: 1,
+        });
+
+        if (!result.canceled) {
+            setSelectedImage(result.assets[0].uri);
         }
     };
 
     const openGallery = async () => {
-        const result = await launchImageLibrary(options);
+        let result = await ImagePicker.launchImageLibraryAsync({
+            allowsEditing: true,
+            quality: 1,
+        });
+
+        if (!result.canceled) {
+            setSelectedImage(result.assets[0].uri);
+        }
     };
+
+    const post = () => {
+
+    }
 
     return (
         <Container>
@@ -33,22 +43,28 @@ const NewPostScreen = ({navigation}) => {
                     numberOfLines={4}
                 />
 
-                <ActionButton buttonColor="#485982">
-                    <ActionButton.Item
-                        buttonColor='#1B022E'
-                        title="Tirar foto"
-                        onPress={() => openCamera()}
-                    >
-                        <Icon name="camera" style={styles.actionButtonIcon}/>
-                    </ActionButton.Item>
-                    <ActionButton.Item
-                        buttonColor='#77BBC4' title="Adicionar imagem"
-                        onPress={() => openGallery()}
-                    >
-                        <Icon name="images" style={styles.actionButtonIcon}/>
-                    </ActionButton.Item>
-                </ActionButton>
+                {selectedImage !== null ? <PostImage source={{uri: selectedImage}}/> : null}
             </InputWrapper>
+
+            <PostButton onPress={post}>
+                <ButtonText>Postar</ButtonText>
+            </PostButton>
+
+            <ActionButton buttonColor="#485982">
+                <ActionButton.Item
+                    buttonColor='#1B022E'
+                    title="Tirar foto"
+                    onPress={() => openCamera()}
+                >
+                    <Icon name="camera" style={styles.actionButtonIcon}/>
+                </ActionButton.Item>
+                <ActionButton.Item
+                    buttonColor='#77BBC4' title="Adicionar imagem"
+                    onPress={() => openGallery()}
+                >
+                    <Icon name="images" style={styles.actionButtonIcon}/>
+                </ActionButton.Item>
+            </ActionButton>
         </Container>
     );
 };
@@ -61,4 +77,4 @@ const styles = StyleSheet.create({
         height: 22,
         color: 'white',
     },
-});
+}); *
