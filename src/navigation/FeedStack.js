@@ -33,14 +33,7 @@ const HomeStack = ({navigation}) => (
                             name="plus"
                             size={25}
                             color="#FDFDFB"
-                            style={{marginRight: 20}}
                             onPress={() => navigation.navigate("NewPost")}
-                        />
-                        <FontAwesome
-                            name="search"
-                            size={25}
-                            color="#FDFDFB"
-                            // TODO: adicionar onPress (busca)
                         />
                     </View>
                 ),

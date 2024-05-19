@@ -31,20 +31,26 @@ export const Header = styled.Text`
     color: #1B022E;
 `;
 
+export const ProfilePicture = styled.Image`
+    width: 75px;
+    height: 75px;
+    border-radius: 60px;
+`
+
 export const Input = styled.TextInput`
     margin-top: 20px;
     height: 40px;
     border-width: 1px;
     border-radius: 4px;
     padding: 10px;
-    backgroundColor: white;
+    background-color: white;
     color: #1B022E;
 `;
 
 export const RegisterButton = styled.TouchableOpacity`
     width: 250px;
     height: 50px;
-    margin-top: 120px;
+    margin-top: 50px;
     background-color: #1B022E;
     border-radius: 5px;
     justify-content: center;
