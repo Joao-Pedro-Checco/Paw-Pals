@@ -4,6 +4,7 @@ import {useEffect, useState} from "react";
 import {collection, query, where, getDocs} from "firebase/firestore";
 import {FIREBASE_DB, FIREBASE_AUTH} from "../firebase/FirebaseConfig";
 import {getStorage, ref, getDownloadURL} from "firebase/storage";
+import FontAwesome from "react-native-vector-icons/FontAwesome";
 
 const ProfileScreen = ({navigation}) => {
     const [userData, setUserData] = useState({});
@@ -19,11 +20,17 @@ const ProfileScreen = ({navigation}) => {
         querySnapshot.forEach((doc) => {
             console.log(doc.id, " => ", doc.data());
             setUserData(doc.data());
+
             getProfilePic(doc.data()["photoURI"]);
         });
     }
 
     const getProfilePic = async (imageUri) => {
+        if (imageUri === null) {
+            setLoading(false);
+            return null;
+        }
+
         const storage = getStorage();
         const reference = ref(storage, imageUri);
 
@@ -65,7 +72,20 @@ const ProfileScreen = ({navigation}) => {
                 ) : (
                     <>
                         <UserInfoWrapper>
-                            <ProfilePicture source={{uri: profile}}/>
+                            {
+                                profile === null ? (
+                                    <FontAwesome
+                                        name="user-circle"
+                                        size={100}
+                                        color={"#1B022E"}
+                                        style={{
+                                            margin: 10,
+                                        }}
+                                    />
+                                ) : (
+                                    <ProfilePicture source={{uri: profile}}/>
+                                )
+                            }
                             <UserName>{userData.name}</UserName>
                         </UserInfoWrapper>
 

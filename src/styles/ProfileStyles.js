@@ -18,6 +18,7 @@ export const ProfilePicture = styled.Image`
     width: 100px;
     height: 100px;
     border-radius: 70px;
+    margin: 10px;
 `;
 
 export const UserName = styled.Text`
