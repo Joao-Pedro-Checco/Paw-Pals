@@ -48,7 +48,7 @@ const LoginScreen = ({navigation}) => {
                     {loading ? (
                         <ActivityIndicator
                             size="large"
-                            color="#0000FF"
+                            color="#1B022E"
                             style={{marginTop: 180, marginHorizontal: 58}}
                         />
                     ) : (
