@@ -14,6 +14,7 @@ import {
 } from "../../styles/feed/PostCardStyles";
 import Icon from "react-native-vector-icons/Ionicons";
 import { useState } from "react";
+import FontAwesome from "react-native-vector-icons/FontAwesome";
 
 const PostCard = ({ item }) => {
   const [like, setLike] = useState(false);
@@ -27,7 +28,18 @@ const PostCard = ({ item }) => {
   return (
     <Card>
       <UserWrapper>
-        <ProfilePic source={item.profilePic} />
+        {item.profilePic === null ? (
+          <FontAwesome
+            name="user-circle"
+            size={50}
+            color={"#1B022E"}
+            style={{
+              marginRight: 10,
+            }}
+          />
+        ) : (
+          <ProfilePic source={{ uri: item.profilePic }} />
+        )}
         <UserNameWrapper>
           <UserName>{item.userName}</UserName>
           <PostTime>{JSON.stringify(item.postTime)}</PostTime>
@@ -37,7 +49,7 @@ const PostCard = ({ item }) => {
       {item.postImage == null ? (
         <Divider></Divider>
       ) : (
-        <PostImage source={item.postImage}></PostImage>
+        <PostImage source={{ uri: item.postImage }}></PostImage>
       )}
       <InteractionWrapper>
         <Interaction onPress={likePost}>

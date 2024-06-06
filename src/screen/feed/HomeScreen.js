@@ -5,13 +5,16 @@ import { useEffect, useState } from "react";
 import { collection, getDocs, query, where } from "firebase/firestore";
 import { FIREBASE_DB } from "../../firebase/FirebaseConfig";
 import { Text } from "react-native";
+import { getStorage, ref, getDownloadURL } from "firebase/storage";
 
 const HomeScreen = ({ navigation }) => {
   const [posts, setPosts] = useState([]);
   const [users, setUsers] = useState([]);
   const [formatedPosts, setFormatedPosts] = useState([]);
+  const [loading, setLoading] = useState(false);
 
   useEffect(() => {
+    setLoading(true);
     fetchPosts();
   }, []);
 
@@ -41,24 +44,30 @@ const HomeScreen = ({ navigation }) => {
 
       console.log("Users fetched:", newUsers);
 
-      const newFormatedPosts = posts.map((post) => {
+      // Fetch image URLs for users and posts
+      const formatedPostsPromises = posts.map(async (post) => {
         const user = newUsers.find((user) => user.uid === post.userId);
+        const profilePic = user ? await getUrlFromUri(user.photoURI) : null;
+        const postImage = await getUrlFromUri(post.postImg);
+
         return {
           id: post.id,
           userName: user ? user.name : "Unknown",
-          profilePic: user ? user.photoURI : null,
+          profilePic,
           postTime: post.postTime,
           description: post.postText,
-          postImage: post.postImg,
+          postImage,
           liked: post.likes,
         };
       });
 
+      const newFormatedPosts = await Promise.all(formatedPostsPromises);
       setFormatedPosts(newFormatedPosts);
       console.log("Formatted posts:", newFormatedPosts);
     } catch (error) {
       console.error("Error fetching users or formatting posts:", error);
     }
+    setLoading(false);
   };
 
   const getPosts = async () => {
@@ -90,14 +99,49 @@ const HomeScreen = ({ navigation }) => {
     return userArr;
   };
 
+  const getUrlFromUri = async (uri) => {
+    if (!uri) return null;
+
+    try {
+      const storage = getStorage();
+      const reference = ref(storage, uri);
+      const url = await getDownloadURL(reference);
+      console.log("url:", url);
+      return url;
+    } catch (error) {
+      console.error("Error fetching URL:", error);
+      return null;
+    }
+  };
+
   return (
     <Container>
-      <FlatList
-        data={formatedPosts}
-        renderItem={({ item }) => <PostCard item={item} />}
-        keyExtractor={(item) => item.id}
-        showsVerticalScrollIndicator={false}
-      />
+      {loading ? (
+        <View
+          style={{
+            flex: 1,
+            justifyContent: "center",
+            alignItems: "center",
+            alignSelf: "center",
+          }}
+        >
+          <ActivityIndicator
+            size="large"
+            color="#1B022E"
+            style={{
+              marginTop: 50,
+              marginHorizontal: 58,
+            }}
+          />
+        </View>
+      ) : (
+        <FlatList
+          data={formatedPosts}
+          renderItem={({ item }) => <PostCard item={item} />}
+          keyExtractor={(item) => item.postTime}
+          showsVerticalScrollIndicator={false}
+        />
+      )}
     </Container>
   );
 };
