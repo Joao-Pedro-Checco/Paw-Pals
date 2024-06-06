@@ -1,22 +1,26 @@
 import { Container } from "../../styles/feed/HomeStyles";
 import PostCard from "./PostCard";
-import { ActivityIndicator, FlatList, View } from "react-native";
-import { useEffect, useState } from "react";
-import { collection, getDocs, query, where } from "firebase/firestore";
+import { FlatList, View } from "react-native";
+import { useEffect, useState, useCallback } from "react";
+import { collection, getDocs, query, where, orderBy } from "firebase/firestore";
 import { FIREBASE_DB } from "../../firebase/FirebaseConfig";
-import { Text } from "react-native";
 import { getStorage, ref, getDownloadURL } from "firebase/storage";
+import { useIsFocused } from "@react-navigation/native";
+import { ActivityIndicator } from "react-native";
 
 const HomeScreen = ({ navigation }) => {
   const [posts, setPosts] = useState([]);
   const [users, setUsers] = useState([]);
   const [formatedPosts, setFormatedPosts] = useState([]);
+  const [refreshing, setRefreshing] = useState(false);
+  const isFocused = useIsFocused();
   const [loading, setLoading] = useState(false);
 
   useEffect(() => {
-    setLoading(true);
-    fetchPosts();
-  }, []);
+    if (isFocused) {
+      fetchPosts();
+    }
+  }, [isFocused]);
 
   useEffect(() => {
     if (posts.length > 0) {
@@ -25,6 +29,7 @@ const HomeScreen = ({ navigation }) => {
   }, [posts]);
 
   const fetchPosts = async () => {
+    setLoading(true);
     try {
       console.log("Fetching posts from Firebase...");
       const postsResponse = await getPosts();
@@ -44,7 +49,6 @@ const HomeScreen = ({ navigation }) => {
 
       console.log("Users fetched:", newUsers);
 
-      // Fetch image URLs for users and posts
       const formatedPostsPromises = posts.map(async (post) => {
         const user = newUsers.find((user) => user.uid === post.userId);
         const profilePic = user ? await getUrlFromUri(user.photoURI) : null;
@@ -72,7 +76,10 @@ const HomeScreen = ({ navigation }) => {
 
   const getPosts = async () => {
     const arr = [];
-    const q = query(collection(FIREBASE_DB, "posts"));
+    const q = query(
+      collection(FIREBASE_DB, "posts"),
+      orderBy("postTime", "desc")
+    );
     const querySnapshot = await getDocs(q);
 
     querySnapshot.forEach((doc) => {
@@ -114,6 +121,12 @@ const HomeScreen = ({ navigation }) => {
     }
   };
 
+  const onRefresh = useCallback(async () => {
+    setRefreshing(true);
+    await fetchPosts();
+    setRefreshing(false);
+  }, []);
+
   return (
     <Container>
       {loading ? (
@@ -138,8 +151,10 @@ const HomeScreen = ({ navigation }) => {
         <FlatList
           data={formatedPosts}
           renderItem={({ item }) => <PostCard item={item} />}
-          keyExtractor={(item) => item.postTime}
+          keyExtractor={(item) => item.id}
           showsVerticalScrollIndicator={false}
+          refreshing={refreshing}
+          onRefresh={onRefresh}
         />
       )}
     </Container>
