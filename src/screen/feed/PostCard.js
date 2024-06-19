@@ -15,15 +15,12 @@ import {
 import Icon from "react-native-vector-icons/Ionicons";
 import { useState } from "react";
 import FontAwesome from "react-native-vector-icons/FontAwesome";
+import moment from "moment/moment";
 
 const PostCard = ({ item }) => {
   const [like, setLike] = useState(false);
   let likeIcon = like ? "heart" : "heart-outline";
   let likeText = like ? "Curtiu" : "Curtir";
-
-  const likePost = () => {
-    setLike(!item.liked);
-  };
 
   return (
     <Card>
@@ -42,7 +39,7 @@ const PostCard = ({ item }) => {
         )}
         <UserNameWrapper>
           <UserName>{item.userName}</UserName>
-          <PostTime>{JSON.stringify(item.postTime)}</PostTime>
+          <PostTime>{moment(item.postTime.toDate()).fromNow()}</PostTime>
         </UserNameWrapper>
       </UserWrapper>
       <PostText>{item.description}</PostText>
@@ -52,7 +49,7 @@ const PostCard = ({ item }) => {
         <PostImage source={{ uri: item.postImage }}></PostImage>
       )}
       <InteractionWrapper>
-        <Interaction onPress={likePost}>
+        <Interaction>
           <Icon name={likeIcon} size={40} color="#485982" />
           <InteractionText>{likeText}</InteractionText>
         </Interaction>
